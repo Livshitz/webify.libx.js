@@ -3,7 +3,6 @@
   "module": "index.ts",
   "version": "1.0.0",
   "type": "module",
-  "private": true,
   "bin": {
     "webify.libx.js": "./src/cli.ts"
   },
