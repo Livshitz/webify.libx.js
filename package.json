@@ -9,7 +9,12 @@
   },
   "scripts": {
     "dev": "bun run src/cli.ts",
-    "watch": "bun --watch run src/cli.ts --watch"
+    "watch": "bun --watch run src/cli.ts --watch",
+
+    "format": "prettier --config .prettierrc 'src/**/*.ts' 'tests/**/*.ts' --write",
+    "test": "bun test",
+    "test:ci": "bun test --ci",
+    "bump": "./bump.sh"
   },
   "devDependencies": {
     "@types/bun": "latest",
