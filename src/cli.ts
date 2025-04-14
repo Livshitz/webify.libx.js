@@ -3,10 +3,10 @@
 import { parseArgs } from 'node:util';
 import { bundle } from './bundle.js';
 import type { BundleOptions } from './bundle.js';
-import { watch } from 'node:fs/promises';
+import { watch, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
-import { mkdir } from 'node:fs/promises';
-import { libx } from "libx.js/build/bundles/node.essentials";
+import { readFileSync } from 'node:fs';
+
 
 const { values, positionals } = parseArgs({
   args: Bun.argv.slice(2),
@@ -72,7 +72,8 @@ Examples:
 }
 
 if (values.version) {
-  const pkg = await libx.node.readPackageJson();
+  const pkgStr = await readFileSync(join(__dirname, '..', 'package.json'), 'utf8');
+  const pkg = JSON.parse(pkgStr);
   console.log(`webify.libx.js v${pkg.version}`);
   process.exit(0);
 }
