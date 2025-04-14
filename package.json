@@ -1,7 +1,7 @@
 {
   "name": "webify.libx.js",
   "module": "index.ts",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "type": "module",
   "bin": {
     "webify.libx.js": "./src/cli.ts"
@@ -10,7 +10,6 @@
     "build": "bun run tsc",
     "dev": "bun run src/cli.ts",
     "watch": "bun --watch run src/cli.ts --watch",
-
     "format": "prettier --config .prettierrc 'src/**/*.ts' 'tests/**/*.ts' --write",
     "test": "bun test",
     "test:ci": "bun test --ci",
