@@ -37,6 +37,7 @@ jobs:
 
             - run: bun install
             - run: bun run build
+            - run: bun run test
             - name: bun run bump
               if: github.ref == 'refs/heads/main'
               run: |
