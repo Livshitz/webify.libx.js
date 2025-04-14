@@ -6,6 +6,7 @@ import type { BundleOptions } from './bundle.js';
 import { watch } from 'node:fs/promises';
 import { join } from 'node:path';
 import { mkdir } from 'node:fs/promises';
+import { libx } from "libx.js/build/bundles/node.essentials";
 
 const { values, positionals } = parseArgs({
   args: Bun.argv.slice(2),

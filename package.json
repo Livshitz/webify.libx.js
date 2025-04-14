@@ -8,6 +8,7 @@
     "webify.libx.js": "./src/cli.ts"
   },
   "scripts": {
+    "build": "bun run tsc",
     "dev": "bun run src/cli.ts",
     "watch": "bun --watch run src/cli.ts --watch",
 
