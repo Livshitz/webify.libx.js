@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webify.libx.js Bundle Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .output {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 8px 16px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <h1>webify.libx.js Bundle Test</h1>
+    <div class="controls">
+        <button onclick="runTest()">Run Test</button>
+        <button onclick="clearOutput()">Clear Output</button>
+    </div>
+    <div id="output" class="output">// Output will appear here</div>
+
+    <script>
+        // Capture console output
+        const output = document.getElementById('output');
+        const originalConsole = window.console;
+        const log = (...args) => {
+            output.textContent += args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ') + '\n';
+            originalConsole.log(...args);
+        };
+        window.console = { ...originalConsole, log };
+		console.log("");
+
+        function clearOutput() {
+            output.textContent = '';
+        }
+
+        function runTest() {
+			debugger
+            clearOutput();
+            console.log('Running bundle test...');
+            // The actual test code will be in the bundle
+			window.runTests();
+        }
+    </script>
+    <script src="/dist/bundle.js" defer></script>
+</body>
+</html> 

@@ -1,0 +1,25 @@
+{
+  "name": "webify.libx.js",
+  "module": "index.ts",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "webify.libx.js": "./src/cli.ts"
+  },
+  "scripts": {
+    "dev": "bun run src/cli.ts",
+    "watch": "bun --watch run src/cli.ts --watch"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "axios": "^1.8.4",
+    "libx.js": "^5.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.2"
+  }
+}
