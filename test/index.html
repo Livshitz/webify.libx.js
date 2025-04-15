@@ -37,6 +37,7 @@
             background: #0052a3;
         }
     </style>
+    <script src="https://raw.githack.com/Livshitz/libx.js/master/dist/libx.min.js"></script>
 </head>
 <body>
     <h1>webify.libx.js Bundle Test</h1>
@@ -47,6 +48,14 @@
     <div id="output" class="output">// Output will appear here</div>
 
     <script>
+        let bundle = null;
+        (async()=>{
+            debugger
+            bundle = await libx.browser.require('/dist/bundle.js')
+            window.bundle = bundle;
+        })();
+
+
         // Capture console output
         const output = document.getElementById('output');
         const originalConsole = window.console;
@@ -64,13 +73,13 @@
         }
 
         function runTest() {
-			debugger
+			// debugger
             clearOutput();
             console.log('Running bundle test...');
             // The actual test code will be in the bundle
 			window.runTests();
         }
     </script>
-    <script src="/dist/bundle.js" defer></script>
+    <!-- <script src="/dist/bundle.js" defer></script> -->
 </body>
 </html> 

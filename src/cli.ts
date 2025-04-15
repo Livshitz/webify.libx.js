@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 
 import { parseArgs } from 'node:util';
-import { bundle } from './bundle.js';
-import type { BundleOptions } from './bundle.js';
+import { bundle } from './bundler.js';
+import type { BundleOptions } from './bundler.js';
 import { watch, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';

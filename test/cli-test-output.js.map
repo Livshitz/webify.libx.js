@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["test-entry.ts"],
+  "sourcesContent": ["// Simple test entry file for bundler tests\nexport function hello() {\n    return \"Hello, World!\";\n}\n\nexport const version = \"1.0.0\";\n\n// Test some basic functionality\nexport function add(a: number, b: number) {\n    return a + b;\n}\n\n// Test async functionality\nexport async function fetchData() {\n    return { data: \"test data\" };\n} "],
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACO,SAAS,QAAQ;AACpB,SAAO;AACX;AAEO,IAAM,UAAU;AAGhB,SAAS,IAAI,GAAW,GAAW;AACtC,SAAO,IAAI;AACf;AAGA,eAAsB,YAAY;AAC9B,SAAO,EAAE,MAAM,YAAY;AAC/B;",
+  "names": []
+}

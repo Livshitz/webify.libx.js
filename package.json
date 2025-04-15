@@ -9,10 +9,12 @@
   "scripts": {
     "build": "bun run tsc",
     "dev": "bun run src/cli.ts",
-    "watch": "bun --watch run src/cli.ts --watch",
+    "watch": "bun run src/cli.ts --watch",
     "format": "prettier --config .prettierrc 'src/**/*.ts' 'tests/**/*.ts' --write",
     "test": "bun test",
+    "test:bundle": "bun run src/cli.ts ./test/bundle.ts -o dist/bundle.js",
     "test:ci": "bun test --ci",
+    "test:serve": "bun run test/server.ts",
     "bump": "./bump.sh"
   },
   "devDependencies": {

@@ -11,7 +11,7 @@ libx.log.isShowStacktrace = false;
 // libx.log.isShowPrefix = false;
 
 
-libx.log.v("Hello, world! 4");
+libx.log.v("Hello, world! 5");
 
 axios.get("https://jsonplaceholder.typicode.com/todos/1").then((res) => {
 	console.log(res.data);
@@ -47,16 +47,21 @@ function runTests() {
     });
 }
 
-// Expose the test function to the global scope
+// Create the exports object
+export {
+    runTests,
+    axios,
+    libx,
+    buffer,
+    path,
+    process
+};
+
+// Expose to global scope if needed
 if (typeof window !== 'undefined') {
     (window as any).runTests = runTests;
-	//@ts-ignore
-	window.libx = libx;
-} else {
-    // runTests();
+    (window as any).libx = libx;
 }
 
-// Export for Node.js usage
-export { runTests };
-
-export { axios, libx };
+// Export everything using ESM syntax
+// export default { ...exports };

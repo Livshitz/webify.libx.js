@@ -41,8 +41,7 @@ export async function bundle(options: BundleOptions) {
 			target: [target],
 			minify: minify,
 			sourcemap,
-			format: 'iife',
-			globalName: 'webifyBundle',
+			format: 'cjs',
 			define: {
 				'process.env.NODE_ENV': '"production"',
 				'global': 'window',
