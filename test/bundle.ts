@@ -57,6 +57,15 @@ export {
     process
 };
 
+const exports = {
+    runTests,
+    axios,
+    libx,
+    buffer,
+    path,
+    process
+};
+
 // Expose to global scope if needed
 if (typeof window !== 'undefined') {
     (window as any).runTests = runTests;
@@ -64,4 +73,4 @@ if (typeof window !== 'undefined') {
 }
 
 // Export everything using ESM syntax
-// export default { ...exports };
+export default { exports };

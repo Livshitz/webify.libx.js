@@ -69,6 +69,30 @@ describe("CLI", () => {
         expect(existsSync(testOutputFile + ".map")).toBe(true);
     });
 
+    test("should bundle file with UMD format", async () => {
+        const process = spawn([
+            "bun",
+            "run",
+            "src/cli.ts",
+            testEntryFile,
+            "--out",
+            testOutputFile,
+            "--format",
+            "umd"
+        ]);
+
+        const exitCode = await process.exited;
+        expect(exitCode).toBe(0);
+        expect(existsSync(testOutputFile)).toBe(true);
+        
+        // Verify UMD format
+        const content = await Bun.file(testOutputFile).text();
+        expect(content).toContain("(function (root, factory) {");
+        expect(content).toContain("if (typeof define === 'function' && define.amd)");
+        expect(content).toContain("if (typeof exports === 'object')");
+        expect(content).toContain("root.bundle = factory()");
+    });
+
     test("should fail with non-existent entry file", async () => {
         const process = spawn([
             "bun",

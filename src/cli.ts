@@ -44,6 +44,11 @@ const { values, positionals } = parseArgs({
       short: 'w',
       description: 'Watch input file for changes',
     },
+    format: {
+      type: 'string',
+      short: 'f',
+      description: 'Output format (cjs, esm, iife, or umd)',
+    },
   },
   allowPositionals: true,
 });
@@ -62,11 +67,14 @@ Options:
   -s, --sourcemap      Generate source maps
   -t, --target <env>   Target environment (default: es2017)
   -w, --watch          Watch input file for changes
+  -f, --format <fmt>   Output format (cjs, esm, iife, or umd) (default: cjs)
 
 Examples:
   webify.libx.js src/index.ts
   webify.libx.js src/index.ts -o dist/bundle.js
   webify.libx.js src/index.ts -m -s
+  webify.libx.js src/index.ts -f esm
+  webify.libx.js src/index.ts -f umd
   `);
   process.exit(0);
 }
@@ -94,6 +102,7 @@ const options: BundleOptions = {
   minify: values.minify,
   sourcemap: values.sourcemap,
   target: values.target,
+  format: values.format as 'cjs' | 'esm' | 'iife' | 'umd' | undefined,
 };
 
 async function runBundle() {

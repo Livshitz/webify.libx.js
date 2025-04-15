@@ -20,6 +20,7 @@ export interface BundleOptions {
 	sourcemap?: boolean;
 	target?: string;
 	platform?: 'browser' | 'node' | 'neutral';
+	format?: 'cjs' | 'esm' | 'iife' | 'umd';
 }
 
 export async function bundle(options: BundleOptions) {
@@ -29,11 +30,12 @@ export async function bundle(options: BundleOptions) {
 		minify = false,
 		sourcemap = false,
 		target = "es2017",
-		platform = "browser"
+		platform = "browser",
+		format = "cjs"
 	} = options;
 
 	try {
-		await build({
+		const result = await build({
 			entryPoints: [entryFile],
 			outfile: outFile,
 			bundle: true,
@@ -41,7 +43,8 @@ export async function bundle(options: BundleOptions) {
 			target: [target],
 			minify: minify,
 			sourcemap,
-			format: 'cjs',
+			format: format === 'umd' ? 'iife' : format,
+			globalName: format === 'umd' ? 'bundle' : undefined,
 			define: {
 				'process.env.NODE_ENV': '"production"',
 				'global': 'window',
@@ -66,6 +69,33 @@ export async function bundle(options: BundleOptions) {
 				},
 			}],
 		});
+
+		// If format is UMD, wrap the output with UMD wrapper
+		if (format === 'umd') {
+			const fs = await import('node:fs/promises');
+			const path = await import('node:path');
+			const outputPath = path.resolve(outFile);
+			const content = await fs.readFile(outputPath, 'utf-8');
+			
+			// Create UMD wrapper
+			const umdWrapper = `(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], function() {
+      return factory();
+    });
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.bundle = factory();
+  }
+}(typeof self !== 'undefined' ? self : this, function() {
+  ${content}
+  return bundle;
+}));`;
+
+			await fs.writeFile(outputPath, umdWrapper);
+		}
+
 		return path.resolve(outFile);
 	} catch (error) {
 		throw new Error(`Build failed: ${error}`);

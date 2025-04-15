@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+</head>
+<body>
+    <h1>Module Test</h1>
+    <div id="output"></div>
+
+    <script>
+        // Method 1: Using RequireJS
+        requirejs.config({
+            baseUrl: '/dist',
+            paths: {
+                'bundle': 'bundle',  // points to dist/bundle.js
+                'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min'
+            }
+        });
+
+        // Method 2: Using global variable (after script loads)
+        function useGlobal() {
+            if (typeof webifyBundle !== 'undefined') {
+                console.log('Using global webifyBundle:', webifyBundle);
+                if (webifyBundle.default && webifyBundle.default.libx) {
+                    webifyBundle.default.libx.log.v('Hello from global bundle!');
+                }
+            }
+        }
+
+        // Load and use the bundle
+        require(['bundle', 'jquery'], function(bundle, $) {
+            const output = document.getElementById('output');
+            
+            // Access exported modules through RequireJS
+            console.log('Loaded bundle via RequireJS:', bundle);
+            console.log('Loaded jQuery version:', $.fn.jquery);
+            
+            // Access the default export which contains all modules
+            const modules = bundle.default || bundle;
+            
+            if (modules.libx) {
+                modules.libx.log.v('Hello from RequireJS loaded module!');
+                output.textContent = 'Module loaded successfully via both methods! Check console for details.';
+            }
+
+            // Also try the global method
+            useGlobal();
+        });
+    </script>
+</body>
+</html> 

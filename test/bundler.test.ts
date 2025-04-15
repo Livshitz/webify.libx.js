@@ -85,4 +85,28 @@ describe("bundler", () => {
         const outputPath = await bundle(options);
         expect(existsSync(outputPath)).toBe(true);
     });
+
+    test("should create a UMD bundle when format is umd", async () => {
+        const options: BundleOptions = {
+            entryFile: testEntryFile,
+            outFile: testOutputFile,
+            format: "umd"
+        };
+
+        const outputPath = await bundle(options);
+        expect(existsSync(outputPath)).toBe(true);
+        
+        // Read the output file and verify it contains UMD wrapper
+        const content = await Bun.file(outputPath).text();
+        
+        // Verify UMD wrapper structure
+        expect(content).toContain("(function (root, factory) {");
+        expect(content).toContain("if (typeof define === 'function' && define.amd)");
+        expect(content).toContain("if (typeof exports === 'object')");
+        expect(content).toContain("root.bundle = factory()");
+        
+        // Verify the bundle variable is properly defined
+        expect(content).toContain("var bundle =");
+        expect(content).toContain("return bundle");
+    });
 }); 
