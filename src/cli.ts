@@ -27,7 +27,12 @@ const { values, positionals } = parseArgs({
     minify: {
       type: 'boolean',
       short: 'm',
-      description: 'Minify the output',
+      description: 'Minify the output (including mangling)',
+    },
+    'keep-identifiers': {
+      type: 'boolean',
+      short: 'k',
+      description: 'Minify without mangling identifiers (implies -m)',
     },
     sourcemap: {
       type: 'boolean',
@@ -63,7 +68,8 @@ Options:
   -h, --help           Show this help message
   -v, --version        Show version information
   -o, --out <file>     Output file path (default: dist/bundle.js)
-  -m, --minify         Minify the output
+  -m, --minify         Minify the output (including mangling)
+  -k, --keep-identifiers Minify without mangling identifiers (implies -m)
   -s, --sourcemap      Generate source maps
   -t, --target <env>   Target environment (default: es2017)
   -w, --watch          Watch input file for changes
@@ -100,6 +106,7 @@ const options: BundleOptions = {
   entryFile: positionals[0],
   outFile: values.out || join(defaultOutDir, defaultOutFile),
   minify: values.minify,
+  keepIdentifiers: values['keep-identifiers'],
   sourcemap: values.sourcemap,
   target: values.target,
   format: values.format as 'cjs' | 'esm' | 'iife' | 'umd' | undefined,

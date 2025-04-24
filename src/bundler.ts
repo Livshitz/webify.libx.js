@@ -17,6 +17,7 @@ export interface BundleOptions {
 	entryFile: string;
 	outFile?: string;
 	minify?: boolean;
+	keepIdentifiers?: boolean;
 	sourcemap?: boolean;
 	target?: string;
 	platform?: 'browser' | 'node' | 'neutral';
@@ -28,6 +29,7 @@ export async function bundle(options: BundleOptions) {
 		entryFile,
 		outFile = "bundle.js",
 		minify = false,
+		keepIdentifiers = false,
 		sourcemap = false,
 		target = "es2017",
 		platform = "browser",
@@ -41,7 +43,6 @@ export async function bundle(options: BundleOptions) {
 			bundle: true,
 			platform,
 			target: [target],
-			minify: minify,
 			sourcemap,
 			format: format === 'umd' ? 'iife' : format,
 			globalName: format === 'umd' ? 'bundle' : undefined,
@@ -51,9 +52,9 @@ export async function bundle(options: BundleOptions) {
 				// 'process.versions': '{}',
 				'process.versions.node': '"20.0.0"',
 			},
-			minifyWhitespace: minify,
-			minifyIdentifiers: minify,
-			minifySyntax: minify,
+			minifyWhitespace: minify || keepIdentifiers,
+			minifyIdentifiers: minify && !keepIdentifiers,
+			minifySyntax: minify || keepIdentifiers,
 			banner: {
 				js: `(function(){if(typeof globalThis.process==='undefined'){globalThis.process={env:{},versions:{node:'20.0.0'}}}})();`,
 			},
@@ -61,9 +62,13 @@ export async function bundle(options: BundleOptions) {
 				name: 'browser-polyfills',
 				setup(build) {
 					// Provide empty implementations for Node.js built-in modules
-					build.onResolve({ filter: /^(buffer|process|util|stream|events|path|fs|os|crypto|zlib|http|https|url|querystring|assert|timers)$/ }, args => {
-						return { path: 'empty-module', namespace: 'browser-polyfills' };
-					});
+					build.onResolve({ filter: /^(buffer|process|util|stream|events|path|fs|os|crypto|zlib|http|https|url|querystring|timers)$/ },
+						() => ({ path: 'empty-module', namespace: 'browser-polyfills' }),
+					);
+
+					build.onResolve({ filter: /^assert$/ }, () => ({
+						path: require.resolve('assert/'),   // note the trailing slash ↑
+					}));
 
 					build.onLoad({ filter: /.*/, namespace: 'browser-polyfills' }, () => {
 						return {

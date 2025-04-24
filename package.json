@@ -1,7 +1,7 @@
 {
   "name": "webify.libx.js",
   "module": "index.ts",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "type": "module",
   "bin": {
     "webify.libx.js": "./src/cli.ts"
@@ -25,6 +25,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "assert": "^2.1.0",
     "esbuild": "^0.25.2",
     "libx.js": "^5.0.0"
   }
