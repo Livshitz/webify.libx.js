@@ -48,10 +48,15 @@ export async function bundle(options: BundleOptions) {
 			define: {
 				'process.env.NODE_ENV': '"production"',
 				'global': 'window',
+				// 'process.versions': '{}',
+				'process.versions.node': '"20.0.0"',
 			},
 			minifyWhitespace: minify,
 			minifyIdentifiers: minify,
 			minifySyntax: minify,
+			banner: {
+				js: `(function(){if(typeof globalThis.process==='undefined'){globalThis.process={env:{},versions:{node:'20.0.0'}}}})();`,
+			},
 			plugins: [{
 				name: 'browser-polyfills',
 				setup(build) {
