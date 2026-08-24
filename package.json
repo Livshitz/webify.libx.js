@@ -1,7 +1,7 @@
 {
   "name": "webify.libx.js",
   "module": "index.ts",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "type": "module",
   "bin": {
     "webify.libx.js": "./src/cli.ts"
